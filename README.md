@@ -2,12 +2,28 @@
 
 Script to link release information to google calendar
 
+## Installation
+
+Install require gems.
+
+```
+$ bundle install
+```
+
+Pass OAuth certification.
+
+```
+$ ruby release-note.rb
+```
+
 ## Usage
 
 ```
-ruby release-note.rb [summery] [description]
-
+$ ruby release-note.rb [summery] [description]
 ```
+
+![image](https://user-images.githubusercontent.com/1483607/49698863-22989700-fc0d-11e8-964b-fe93269e3f30.png)
+
 
 ## Contributing
 
