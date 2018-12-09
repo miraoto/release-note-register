@@ -6,18 +6,9 @@ require 'fileutils'
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
 APPLICATION_NAME = 'Google Calendar API'.freeze
 CREDENTIALS_PATH = 'credentials.json'.freeze
-# The file token.yaml stores the user's access and refresh tokens, and is
-# created automatically when the authorization flow completes for the first
-# time.
 TOKEN_PATH = 'token.yaml'.freeze
 SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
 
-##
-# Ensure valid credentials, either by restoring from the saved credentials
-# files or intitiating an OAuth2 authorization. If authorization is required,
-# the user's default browser will be launched to approve the request.
-#
-# @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
 def authorize
   client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
   token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
@@ -36,13 +27,13 @@ def authorize
   credentials
 end
 
-# Initialize the API
 service = Google::Apis::CalendarV3::CalendarService.new
 service.client_options.application_name = APPLICATION_NAME
 service.authorization = authorize
 
-# Fetch the next 10 events for the user
 calendar_id = ENV['CALENDAR_ID']
+schedule_summery = ARGV[0]
+schedule_description = ARGV[1]
 
 event = Google::Apis::CalendarV3::Event.new({
           start: {
@@ -53,10 +44,10 @@ event = Google::Apis::CalendarV3::Event.new({
             date_time: Time.now.iso8601,
             time_zone: 'Japan'
           },
-          summary: 'summary' ,
-          description: 'description'
+          summary: schedule_summery,
+          description: schedule_description,
         })
 
-puts 'Upcoming events:'
 response = service.insert_event(calendar_id, event)
-pp response
+message = "Insert schedle '#{response.summary}' to #{response.organizer.display_name}"
+pp message
