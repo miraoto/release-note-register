@@ -18,6 +18,12 @@ $ ruby release-note.rb
 
 ## Usage
 
+Setting google calendar's id.
+
+```
+$ export CALENDER_ID=XXXXXXXXXXXX
+```
+
 ```
 $ ruby release-note.rb [summery] [description]
 ```
